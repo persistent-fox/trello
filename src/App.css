@@ -6,6 +6,38 @@
 	box-sizing: border-box;
 }
 
+li {
+	list-style: none;
+}
+
+button {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 10px;
+	font-weight: 900;
+	background-color: rgb(218 231 239);
+	cursor: pointer;
+}
+
+input {
+	padding: 10px 20px;
+	border: 1px solid #bbbaba;
+	border-radius: 10px;
+	font-weight: 900;
+	background-color: rgb(243, 246, 248);
+}
+
+input:focus-visible {
+	outline: none;
+	border: 1px solid #abcaf7;
+}
+
+.buttons-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
 .App {
 	display: flex;
 	justify-content: center;
@@ -23,29 +55,20 @@
 	align-items: center;
 	gap: 15px;
 	margin-bottom: 10px;
-	span {
+	label {
 		text-align: left;
 		flex-grow: 1;
+		cursor: pointer;
 	}
 }
-li {
-	list-style: none;
-}
 
-button {
-	padding: 10px 20px;
-	border: none;
-	border-radius: 10px;
-	font-weight: 900;
-	background-color: rgb(176, 222, 247);
+.completed {
+	opacity: 0.5;
 }
-
-input {
-	padding: 10px 20px;
-	border: 1px solid #bbbaba;
-	border-radius: 10px;
-	font-weight: 900;
-	background-color: rgb(243, 246, 248);
+.item-form {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
 }
 
 .wrapper {
@@ -57,4 +80,17 @@ input {
 	input {
 		flex-grow: 1;
 	}
+}
+
+.error {
+	color: #ff4646;
+	font-weight: 500;
+}
+
+.input-error {
+	border: 1px solid #ff4646;
+}
+
+.active {
+	background-color: #5fce28;
 }

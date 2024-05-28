@@ -3,7 +3,7 @@ import { v1 } from 'uuid';
 import './App.css';
 import { Todolist } from './components/todolist/Todolist';
 import { AddItemForm } from './components/add-item-form/AddItemForm';
-import { TTask, TTodolist } from './types/types';
+import { TFilter, TTask, TTodolist } from './types/types';
 
 function App() {
 	const todolist1 = v1();
@@ -42,23 +42,39 @@ function App() {
 		}
 	};
 
+	const changeFilter = (todoId: string, filter: TFilter) => {
+		setTodolists([...todolists.map(item => (item.id === todoId ? { ...item, filter: filter } : item))]);
+	};
+
+	const addTodoList = () => {};
+
 	return (
 		<div className='App'>
 			<div>
 				<h2>Add new todolist</h2>
-				<AddItemForm />
+				<AddItemForm addItem={addTodoList} />
 			</div>
-			{todolists.map(item => (
-				<Todolist
-					changeStatus={changeStatus}
-					key={item.id}
-					title={item.title}
-					filter={item.filter}
-					tasks={tasks[item.id]}
-					todoId={item.id}
-					AddTask={AddTask}
-				/>
-			))}
+			{todolists.map(item => {
+				let filteredTasks = tasks[item.id];
+				if (item.filter === 'active') {
+					filteredTasks = filteredTasks.filter(task => !task.isDone);
+				}
+				if (item.filter === 'completed') {
+					filteredTasks = filteredTasks.filter(task => task.isDone);
+				}
+				return (
+					<Todolist
+						changeStatus={changeStatus}
+						key={item.id}
+						title={item.title}
+						filter={item.filter}
+						tasks={filteredTasks}
+						todoId={item.id}
+						AddTask={AddTask}
+						changeFilter={changeFilter}
+					/>
+				);
+			})}
 		</div>
 	);
 }
