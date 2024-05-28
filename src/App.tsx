@@ -34,6 +34,10 @@ function App() {
 		setTasks({ ...tasks, [todoId]: newTasks });
 	};
 
+	const deleteTask = (todoId: string, taskId: string) => {
+		setTasks({ ...tasks, [todoId]: tasks[todoId].filter(t => t.id !== taskId) });
+	};
+
 	const changeStatus = (todoId: string, taskId: string, status: boolean) => {
 		const task = tasks[todoId].find(el => el.id === taskId);
 		if (task) {
@@ -46,7 +50,13 @@ function App() {
 		setTodolists([...todolists.map(item => (item.id === todoId ? { ...item, filter: filter } : item))]);
 	};
 
-	const addTodoList = () => {};
+	const addTodoList = (title: string) => {
+		const newTodoList: TTodolist = { id: v1(), title: title, filter: 'all' };
+		setTodolists([...todolists, newTodoList]);
+		console.log({ ...tasks, [v1()]: [] });
+
+		setTasks({ ...tasks, [v1()]: [] });
+	};
 
 	return (
 		<div className='App'>
@@ -72,6 +82,7 @@ function App() {
 						todoId={item.id}
 						AddTask={AddTask}
 						changeFilter={changeFilter}
+						deleteTask={deleteTask}
 					/>
 				);
 			})}
