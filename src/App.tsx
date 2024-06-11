@@ -23,7 +23,7 @@ function App() {
 		],
 		[todolist2]: [
 			{ id: v1(), title: 'Harry Potter and The Chamber of Secrets', isDone: true },
-			{ id: v1(), title: 'React', isDone: false },
+			{ id: v1(), title: '', isDone: false },
 			{ id: v1(), title: 'Typescript', isDone: false },
 		],
 	});
@@ -53,11 +53,31 @@ function App() {
 	const addTodoList = (title: string) => {
 		const newTodoList: TTodolist = { id: v1(), title: title, filter: 'all' };
 		setTodolists([...todolists, newTodoList]);
-		console.log({ ...tasks, [v1()]: [] });
-
-		setTasks({ ...tasks, [v1()]: [] });
+		const newTasks = { ...tasks, [newTodoList.id]: [] };
+		setTasks(newTasks);
 	};
 
+	const deleteTodolist = (todoId: string) => {
+		setTodolists([...todolists.filter(todo => todo.id !== todoId)]);
+		delete tasks[todoId];
+		setTasks({ ...tasks });
+	};
+
+	const changeTaskTitle = (todoId: string, taskId: string, title: string) => {
+		const newTask = tasks[todoId].find(t => t.id === taskId);
+		if (newTask) {
+			newTask.title = title;
+			setTasks({ ...tasks });
+		}
+	};
+
+	const changeTitle = (todoId: string, title: string) => {
+		const newTodolist = todolists.find(todo => todo.id === todoId);
+		if (newTodolist) {
+			newTodolist.title = title;
+			setTodolists([...todolists]);
+		}
+	};
 	return (
 		<div className='App'>
 			<div>
@@ -83,6 +103,9 @@ function App() {
 						AddTask={AddTask}
 						changeFilter={changeFilter}
 						deleteTask={deleteTask}
+						deleteTodolist={deleteTodolist}
+						changeTaskTitle={changeTaskTitle}
+						changeTitle={changeTitle}
 					/>
 				);
 			})}

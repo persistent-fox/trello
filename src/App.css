@@ -36,6 +36,7 @@ input:focus-visible {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	margin-bottom: 10px;
 }
 
 .App {
@@ -46,6 +47,7 @@ input:focus-visible {
 }
 
 .list {
+	font-size: 20px;
 	padding-left: 10px;
 }
 
@@ -70,6 +72,11 @@ input:focus-visible {
 	flex-grow: 1;
 }
 
+.delete-todolist {
+	margin-top: 20px;
+	width: 100%;
+	background-color: #ce7b7b;
+}
 .completed {
 	opacity: 0.5;
 }
