@@ -1,4 +1,3 @@
-import React from 'react';
 import { AddItemForm } from '../add-item-form/AddItemForm';
 import { TFilter, TTask } from '../../types/types';
 import { EditableSpan } from '../editable-span/EditableSpan';
