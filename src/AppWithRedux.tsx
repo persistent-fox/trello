@@ -19,7 +19,7 @@ import {
 	tasksReducer,
 } from './state/tasks-reducer/tasks-reducer';
 
-function AppWithReducers() {
+function AppWithRedux() {
 	const todolist1 = v1();
 	const todolist2 = v1();
 
