@@ -1,9 +1,9 @@
 import { v1 } from 'uuid';
 import { TFilter, TTodolist } from '../types/types';
 import {
-	addTotodlistAC,
-	changeTotodlistFilterAC,
-	changeTotodlistTitleAC,
+	addTodolistAC,
+	changeTodolistFilterAC,
+	changeTodolistTitleAC,
 	removeTodolistAC,
 	todolistReducer,
 } from './todolists-reducer';
@@ -29,7 +29,7 @@ test('correct todolist should be added', () => {
 		{ id: todolist2, title: 'What to watch', filter: 'all' },
 	];
 
-	const newState = todolistReducer(startState, addTotodlistAC('New Task'));
+	const newState = todolistReducer(startState, addTodolistAC('New Task'));
 
 	expect(newState.length).toBe(3);
 	expect(newState[2].title).toBe('New Task');
@@ -44,7 +44,7 @@ test('correct title should be changed in todolist', () => {
 		{ id: todolist2, title: 'What to watch', filter: 'all' },
 	];
 
-	const newState = todolistReducer(startState, changeTotodlistTitleAC(todolist1, 'New Title Task'));
+	const newState = todolistReducer(startState, changeTodolistTitleAC(todolist1, 'New Title Task'));
 	expect(newState.length).toBe(2);
 	expect(newState[0].title).toBe('New Title Task');
 	expect(newState[1].title).toBe('What to watch');
@@ -60,7 +60,7 @@ test('correct filter should be changed in todolist', () => {
 		{ id: todolist2, title: 'What to watch', filter: 'all' },
 	];
 
-	const newState = todolistReducer(startState, changeTotodlistFilterAC(todolist1, newFilter));
+	const newState = todolistReducer(startState, changeTodolistFilterAC(todolist1, newFilter));
 	expect(newState[0].filter).toBe(newFilter);
 	expect(newState[1].filter).toBe('all');
 	expect(newState.length).toBe(2);

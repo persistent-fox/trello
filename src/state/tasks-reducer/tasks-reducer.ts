@@ -1,5 +1,6 @@
 import { v1 } from 'uuid';
 import { TTask } from '../../types/types';
+import { AddTodolistActionType, RemoveTodoListActionType } from '../todolists-reducer';
 
 export type ActionType = {
 	type: string;
@@ -30,7 +31,13 @@ export type ChangeTaskTitleActionType = {
 	title: string;
 };
 
-export type ActionsType = AddTaskActionType | DeleteTaskActionType | ChangeStatusActionType | ChangeTaskTitleActionType;
+export type ActionsType =
+	| AddTaskActionType
+	| DeleteTaskActionType
+	| ChangeStatusActionType
+	| ChangeTaskTitleActionType
+	| AddTodolistActionType
+	| RemoveTodoListActionType;
 
 export const tasksReducer = (state: Record<string, TTask[]>, action: ActionsType): Record<string, TTask[]> => {
 	switch (action.type) {
@@ -52,6 +59,12 @@ export const tasksReducer = (state: Record<string, TTask[]>, action: ActionsType
 					item.id === action.taskId ? { ...item, title: action.title } : item
 				),
 			};
+		case 'ADD-TODOLIST':
+			return { ...state, [action.todolistId]: [] };
+		case 'REMOVE-TODOLIST':
+			const stateCopy = { ...state };
+			delete stateCopy[action.id];
+			return stateCopy;
 		default:
 			return state;
 	}
