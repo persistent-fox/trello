@@ -1,5 +1,6 @@
 import { v1 } from 'uuid';
 import { TFilter, TTodolist } from '../types/types';
+import { todolist1, todolist2 } from '../mock/data';
 
 export type ActionType = {
 	type: string;
@@ -32,7 +33,12 @@ type ActionsType =
 	| ChangeTodolistTitleActionType
 	| ChangeTodolistFilterActionType;
 
-export const todolistReducer = (state: Array<TTodolist>, action: ActionsType): Array<TTodolist> => {
+const initialState: Array<TTodolist> = [
+	{ id: todolist1, title: 'What to learn', filter: 'all' },
+	{ id: todolist2, title: 'What to watch', filter: 'all' },
+];
+
+export const todolistReducer = (state: Array<TTodolist> = initialState, action: ActionsType): Array<TTodolist> => {
 	switch (action.type) {
 		case 'REMOVE-TODOLIST':
 			return state.filter(item => item.id !== action.id);

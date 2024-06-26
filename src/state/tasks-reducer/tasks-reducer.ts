@@ -1,6 +1,7 @@
 import { v1 } from 'uuid';
 import { TTask } from '../../types/types';
 import { AddTodolistActionType, RemoveTodoListActionType } from '../todolists-reducer';
+import { todolist1, todolist2 } from '../../mock/data';
 
 export type ActionType = {
 	type: string;
@@ -39,7 +40,25 @@ export type ActionsType =
 	| AddTodolistActionType
 	| RemoveTodoListActionType;
 
-export const tasksReducer = (state: Record<string, TTask[]>, action: ActionsType): Record<string, TTask[]> => {
+const initialState = {
+	[todolist1]: [
+		{ id: v1(), title: 'HTML', isDone: true },
+		{ id: v1(), title: 'CSS', isDone: true },
+		{ id: v1(), title: 'JS', isDone: true },
+		{ id: v1(), title: 'React', isDone: false },
+		{ id: v1(), title: 'Typescript', isDone: false },
+	],
+	[todolist2]: [
+		{ id: v1(), title: 'Harry Potter and The Chamber of Secrets', isDone: true },
+		{ id: v1(), title: '', isDone: false },
+		{ id: v1(), title: 'Typescript', isDone: false },
+	],
+};
+
+export const tasksReducer = (
+	state: Record<string, TTask[]> = initialState,
+	action: ActionsType
+): Record<string, TTask[]> => {
 	switch (action.type) {
 		case 'ADD-TASK':
 			return { ...state, [action.todoId]: [...state[action.todoId], { id: v1(), title: action.title, isDone: false }] };
