@@ -116,4 +116,4 @@ function AppWithRedux() {
 	);
 }
 
-export default AppWithReducers;
+export default AppWithRedux;
