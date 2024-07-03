@@ -12,6 +12,7 @@ import { changeTodolistFilterAC } from '../../state/todolists-reducer';
 import { AppRootState } from '../../state/store';
 import { useCallback } from 'react';
 import React from 'react';
+import { TaskItem } from '../task-item/TaskItem';
 
 type TTodolistProps = {
 	todoId: string;
@@ -27,34 +28,59 @@ export const Todolist = React.memo(({ todoId, title, filter, deleteTodolist, cha
 	const dispatch = useDispatch();
 	const tasks = useSelector<AppRootState, TTask[]>(state => state.tasks[todoId]);
 
-	const deleteTask = (todoId: string, taskId: string) => {
-		const action = deleteTaskAC(todoId, taskId);
-		dispatch(action);
-	};
+	const deleteTask = useCallback(
+		(taskId: string) => {
+			const action = deleteTaskAC(todoId, taskId);
+			dispatch(action);
+		},
+		[dispatch, todoId]
+	);
 
-	const changeStatus = (todoId: string, taskId: string, status: boolean) => {
-		const action = changeStatusAC(todoId, taskId, status);
-		dispatch(action);
-	};
+	const changeStatus = useCallback(
+		(taskId: string, status: boolean) => {
+			const action = changeStatusAC(todoId, taskId, status);
+			dispatch(action);
+		},
+		[dispatch, todoId]
+	);
 
-	const changeFilter = (todoId: string, filter: TFilter) => {
-		const action = changeTodolistFilterAC(todoId, filter);
-		dispatch(action);
-	};
+	const changeFilter = useCallback(
+		(todoId: string, filter: TFilter) => {
+			const action = changeTodolistFilterAC(todoId, filter);
+			dispatch(action);
+		},
+		[dispatch]
+	);
 
-	const addItem = useCallback((title: string) => {
-		const action = addTaskAC(todoId, title);
-		dispatch(action);
-	}, []);
+	const addItem = useCallback(
+		(title: string) => {
+			const action = addTaskAC(todoId, title);
+			dispatch(action);
+		},
+		[dispatch, todoId]
+	);
 
-	const changeTodolistTitle = (title: string) => {
-		changeTitle(todoId, title);
-	};
+	const changeTodolistTitle = useCallback(
+		(title: string) => {
+			changeTitle(todoId, title);
+		},
+		[changeTitle, todoId]
+	);
 
-	const changeTaskTitle = (todoId: string, taskId: string, title: string) => {
-		const action = changeTaskTitleAC(todoId, taskId, title);
-		dispatch(action);
-	};
+	const changeTaskTitle = useCallback(
+		(todoId: string, taskId: string, title: string) => {
+			const action = changeTaskTitleAC(todoId, taskId, title);
+			dispatch(action);
+		},
+		[dispatch]
+	);
+
+	const onChangeTitleHandler = useCallback(
+		(taskId: string, title: string) => {
+			changeTaskTitle(todoId, taskId, title);
+		},
+		[changeTaskTitle, todoId]
+	);
 
 	let filteredTasks = tasks;
 	if (filter === 'active') {
@@ -73,23 +99,14 @@ export const Todolist = React.memo(({ todoId, title, filter, deleteTodolist, cha
 			{filteredTasks?.length ? (
 				<ul className='list'>
 					{filteredTasks.map(item => {
-						const onChangeTitleHandler = (title: string) => {
-							changeTaskTitle(todoId, item.id, title);
-						};
-
 						return (
-							<li className={`list-item ${item.isDone ? 'completed' : ''}`} key={item.id}>
-								<Checkbox
-									checked={item.isDone}
-									onChange={() => changeStatus(todoId, item.id, !item.isDone)}
-									icon={<BookmarkBorderIcon />}
-									checkedIcon={<BookmarkIcon />}
-								/>
-								<EditableSpan onChange={onChangeTitleHandler} title={item.title} />
-								<IconButton onClick={() => deleteTask(todoId, item.id)} aria-label='delete'>
-									<DeleteIcon />
-								</IconButton>
-							</li>
+							<TaskItem
+								onChangeTitleHandler={onChangeTitleHandler}
+								deleteTask={deleteTask}
+								changeStatus={changeStatus}
+								task={item}
+								key={item.id}
+							/>
 						);
 					})}
 				</ul>

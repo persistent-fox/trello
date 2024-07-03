@@ -14,19 +14,28 @@ function AppWithRedux() {
 	const dispatch = useDispatch();
 	const todolists = useSelector<AppRootState, Array<TTodolist>>(state => state.todolist);
 
-	const addTodoList = useCallback((title: string) => {
-		const action = addTodolistAC(title);
-		dispatch(action);
-	}, []);
+	const addTodoList = useCallback(
+		(title: string) => {
+			const action = addTodolistAC(title);
+			dispatch(action);
+		},
+		[dispatch]
+	);
 
-	const deleteTodolist = useCallback((todoId: string) => {
-		dispatch(removeTodolistAC(todoId));
-	}, []);
+	const deleteTodolist = useCallback(
+		(todoId: string) => {
+			dispatch(removeTodolistAC(todoId));
+		},
+		[dispatch]
+	);
 
-	const changeTitle = useCallback((todoId: string, title: string) => {
-		const action = changeTodolistTitleAC(todoId, title);
-		dispatch(action);
-	}, []);
+	const changeTitle = useCallback(
+		(todoId: string, title: string) => {
+			const action = changeTodolistTitleAC(todoId, title);
+			dispatch(action);
+		},
+		[dispatch]
+	);
 	return (
 		<div className='App'>
 			<Header />
