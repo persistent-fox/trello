@@ -6,51 +6,73 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import { addTaskAC, changeStatusAC, changeTaskTitleAC, deleteTaskAC } from '../../state/tasks-reducer/tasks-reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeTodolistFilterAC } from '../../state/todolists-reducer';
+import { AppRootState } from '../../state/store';
+import { useCallback } from 'react';
+import React from 'react';
 
 type TTodolistProps = {
 	todoId: string;
 	title: string;
 	filter: TFilter;
-	tasks: TTask[];
-	changeStatus: (todoId: string, taskId: string, status: boolean) => void;
-	AddTask: (todoId: string, title: string) => void;
-	changeFilter: (todoId: string, filter: TFilter) => void;
-	deleteTask: (todoId: string, taskId: string) => void;
 	deleteTodolist: (todoId: string) => void;
-	changeTaskTitle: (todoId: string, taskId: string, title: string) => void;
 	changeTitle: (todoId: string, title: string) => void;
 };
 
-export const Todolist = ({
-	todoId,
-	title,
-	filter,
-	tasks,
-	changeStatus,
-	AddTask,
-	changeFilter,
-	deleteTask,
-	deleteTodolist,
-	changeTaskTitle,
-	changeTitle,
-}: TTodolistProps) => {
-	const addItem = (title: string) => {
-		AddTask(todoId, title);
+export const Todolist = React.memo(({ todoId, title, filter, deleteTodolist, changeTitle }: TTodolistProps) => {
+	console.log('Todolist is called');
+
+	const dispatch = useDispatch();
+	const tasks = useSelector<AppRootState, TTask[]>(state => state.tasks[todoId]);
+
+	const deleteTask = (todoId: string, taskId: string) => {
+		const action = deleteTaskAC(todoId, taskId);
+		dispatch(action);
 	};
+
+	const changeStatus = (todoId: string, taskId: string, status: boolean) => {
+		const action = changeStatusAC(todoId, taskId, status);
+		dispatch(action);
+	};
+
+	const changeFilter = (todoId: string, filter: TFilter) => {
+		const action = changeTodolistFilterAC(todoId, filter);
+		dispatch(action);
+	};
+
+	const addItem = useCallback((title: string) => {
+		const action = addTaskAC(todoId, title);
+		dispatch(action);
+	}, []);
 
 	const changeTodolistTitle = (title: string) => {
 		changeTitle(todoId, title);
 	};
 
+	const changeTaskTitle = (todoId: string, taskId: string, title: string) => {
+		const action = changeTaskTitleAC(todoId, taskId, title);
+		dispatch(action);
+	};
+
+	let filteredTasks = tasks;
+	if (filter === 'active') {
+		filteredTasks = tasks.filter(t => !t.isDone);
+	}
+	if (filter === 'completed') {
+		filteredTasks = tasks.filter(t => t.isDone);
+	}
+
 	return (
-		<Paper sx={{ padding: '20px' }} elevation={3}>
+		<Paper sx={{ padding: '20px', minWidth: '200px' }} elevation={3}>
 			<h2>
 				<EditableSpan onChange={changeTodolistTitle} title={title} />
 			</h2>
 			<AddItemForm addItem={addItem} />
-			{tasks?.length ? (
+			{filteredTasks?.length ? (
 				<ul className='list'>
-					{tasks.map(item => {
+					{filteredTasks.map(item => {
 						const onChangeTitleHandler = (title: string) => {
 							changeTaskTitle(todoId, item.id, title);
 						};
@@ -109,4 +131,4 @@ export const Todolist = ({
 			</Button>
 		</Paper>
 	);
-};
+});

@@ -41,6 +41,7 @@ input:focus-visible {
 
 .App {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
 	gap: 30px;

@@ -1,18 +1,19 @@
 import { ChangeEvent, useState } from 'react';
 import { IconButton, Stack, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import React from 'react';
 
 type TAddItemForm = {
 	addItem: (title: string) => void;
 };
 
-export const AddItemForm = ({ addItem }: TAddItemForm) => {
+export const AddItemForm = React.memo(({ addItem }: TAddItemForm) => {
 	const [value, setValue] = useState('');
 	const [error, setError] = useState(false);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setValue(e.currentTarget.value);
-		setError(false);
+		error && setError(false);
 	};
 
 	const onChange = () => {
@@ -27,7 +28,7 @@ export const AddItemForm = ({ addItem }: TAddItemForm) => {
 	return (
 		<div className='item-form'>
 			<div className='wrapper'>
-				<Stack>
+				<Stack display='flex' flexDirection='row' alignItems='center' gap='10px'>
 					<TextField
 						error={error}
 						helperText={error ? 'This field is required' : ''}
@@ -45,4 +46,4 @@ export const AddItemForm = ({ addItem }: TAddItemForm) => {
 			</div>
 		</div>
 	);
-};
+});
