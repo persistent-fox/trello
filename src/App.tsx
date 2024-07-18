@@ -36,6 +36,7 @@ function AppWithRedux() {
 		},
 		[dispatch]
 	);
+
 	return (
 		<div className='App'>
 			<Header />
