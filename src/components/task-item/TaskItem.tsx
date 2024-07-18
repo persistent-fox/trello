@@ -15,8 +15,6 @@ type TTaskItemProps = {
 };
 
 export const TaskItem = React.memo(({ task, changeStatus, deleteTask, onChangeTitleHandler }: TTaskItemProps) => {
-	console.log('taskItem');
-
 	return (
 		<li className={`list-item ${task.isDone ? 'completed' : ''}`}>
 			<Checkbox

@@ -10,7 +10,7 @@ import { Header } from './components/header/Header';
 import { Box, Container } from '@mui/material';
 import { useCallback } from 'react';
 
-function AppWithRedux() {
+export function App() {
 	const dispatch = useDispatch();
 	const todolists = useSelector<AppRootState, Array<TTodolist>>(state => state.todolist);
 
@@ -63,5 +63,3 @@ function AppWithRedux() {
 		</div>
 	);
 }
-
-export default AppWithRedux;

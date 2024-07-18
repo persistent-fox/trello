@@ -23,8 +23,6 @@ type TTodolistProps = {
 };
 
 export const Todolist = React.memo(({ todoId, title, filter, deleteTodolist, changeTitle }: TTodolistProps) => {
-	console.log('Todolist is called');
-
 	const dispatch = useDispatch();
 	const tasks = useSelector<AppRootState, TTask[]>(state => state.tasks[todoId]);
 

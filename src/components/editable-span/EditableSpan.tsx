@@ -6,8 +6,6 @@ type TEditableSpanProps = {
 };
 
 export const EditableSpan = React.memo(({ title, onChange }: TEditableSpanProps) => {
-	console.log('EditableSpan');
-
 	const [editMode, setEditMode] = useState(false);
 	const [value, setValue] = useState('');
 
